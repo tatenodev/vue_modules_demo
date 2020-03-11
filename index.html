@@ -5,8 +5,137 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vue.js Modules</title>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+  <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
   
+<div id="app">
+
+  <button type="button" @click="openModal">open</button>
+  <modal-content v-show="showContents" @child-emit="closeModal">
+    slot element
+  </modal-content>
+
+  <toggle-content></toggle-content>
+
+  <tab-content></tab-content>
+
+  <modal-content2>custom slot element</modal-content2>
+
+</div>
+
+<script>
+
+Vue.component('modal-content2', {
+  template: `
+  <div>
+    <button @click="openModal">open</button>
+    <div class="overlay" v-show="showModal" @click="closeModal">
+      <div class="content" @click="stopEvent">
+        <p><slot>default contents</slot></p>
+        <button type="button" @click="closeModal">close</button>
+      </div>
+    </div>
+  </div>
+  `,
+  data(){
+    return {
+      showModal: false
+    }
+  },
+  methods: {
+    openModal: function(){
+      this.showModal = true
+    },
+    closeModal: function(){
+      this.showModal = false
+    },
+    stopEvent: function(){
+      event.stopPropagation()
+    }
+  }
+})
+
+Vue.component('tab-content', {
+  template: `
+  <div>
+    <h2>tab</h2>
+    <div id="tabs" class="container">
+      <div class="tabs">
+        <a @click="activetab=1" :class="[activetab === 1 ? 'active' : '']">tab1</a>
+        <a @click="activetab=2" :class="[activetab === 2 ? 'active' : '']">tab1</a>
+        <a @click="activetab=3" :class="[activetab === 3 ? 'active' : '']">tab1</a>
+      </div>
+      <div class="content">
+        <div v-show="activetab === 1" class="tabcontent">
+          content1
+        </div>
+        <div v-show="activetab === 2" class="tabcontent">
+          content2
+        </div>
+        <div v-show="activetab === 3" class="tabcontent">
+          content3
+        </div>
+      </div>
+    </div>
+  </div>
+  `,
+  data(){
+    return {
+      activetab: 1
+    }
+  }
+})
+
+Vue.component('toggle-content', {
+  template: `
+  <div>
+    <h2>toggle click</h2>
+    <button class="btn01" @click="isActive=!isActive">click!</button>
+    <div class="changeItem" :class="{active: isActive}">change color</div>
+  </div>
+  `,
+  data(){
+    return {
+      isActive: false
+    }
+  }
+})
+
+Vue.component('modal-content', {
+  template: `
+    <div id="overlay" @click="clickEvent">
+      <div id="content" @click="stopEvent">
+        <p><slot>slot default element</slot></p>
+        <button type="button" @click="clickEvent">close</button>
+      </div>
+    </div>
+  `,
+  methods: {
+    clickEvent: function(){
+      this.$emit('child-emit')
+    },
+    stopEvent: function(){
+      event.stopPropagation()
+    }
+  }
+})
+
+const app = new Vue({
+  el: "#app",
+  data: {
+    showContents: false
+  },
+  methods: {
+    openModal: function(){
+      this.showContents = true
+    },
+    closeModal: function(){
+      this.showContents = false
+    }
+  }
+})
+
+</script>
 </body>
 </html>
