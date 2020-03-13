@@ -1,0 +1,68 @@
+@charset "utf-8";
+.root {
+  padding: 0 50px;
+}
+
+.root__title {
+  font-size: 24px;
+  text-align: center;
+  padding: 20px 0 40px;
+}
+
+.module-title {
+  padding: 0 0 10px;
+}
+
+/****************************** 
+Modal contents
+******************************/
+.modal__overlay {
+  width: 100vw;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+.modal__inner {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 80%;
+  padding: 30px 20px;
+  box-sizing: border-box;
+  border-radius: 20px;
+  background: #fff;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.modal__button--open {
+  width: 100px;
+  height: 30px;
+  margin: 0 auto;
+  border-radius: 10px;
+  background: #D0F9FF;
+  color: #333;
+  border: none;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, .3);
+  outline: none;
+  font-weight: bold;
+}
+.modal__button--close {
+  width: 100px;
+  height: 30px;
+  margin: 0 auto;
+  border-radius: 10px;
+  background: #D0F9FF;
+  color: #333;
+  border: none;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, .3);
+  outline: none;
+}
+.modal__button--open:focus, .modal__button--close:focus {
+  border: 2px solid #BFB3E8;
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+</head>
+<body>
+  
+<div id="appRoot" class="root">
+  <h1 class="root__title">Vue.js モジュールページ</h1>
+  <section class="modal">
+    <h2 class="module-title">モーダルウィンドウ</h2>
+    <button class="modal__button--open" @click="modalOpen">Modal Open</button>
+    <!-- *** $emitで送るイベント名は必ずケバブケースで記述する *** -->
+    <modal-content v-show="modalState" @modal-emit="modalClose"></modal-content>
+  </section>
+</div>
+
+<script>
+
+const modalContent = Vue.extend({
+  template: `
+  <div class="modal__overlay" @click="clickEvent">
+    <div class="modal__inner" @click="stopEvent">
+      <h3>タイトル</h3>
+      <p><slot>スロットのデフォルトテキスト。</slot></p>
+      <button class="modal__button--close" @click="clickEvent">とじる</button>
+    </div>
+  </div>
+  `,
+  methods: {
+    clickEvent: function(){
+      this.$emit('modal-emit')
+    },
+    stopEvent: function(){
+      event.stopPropagation()
+    }
+  }
+})
+
+const app = new Vue({
+  el: '#appRoot',
+  components: {
+    'modal-content': modalContent
+  },
+  data: {
+    modalState: false
+  },
+  methods: {
+    modalOpen: function(){
+      this.modalState = true
+    },
+    modalClose: function(){
+      this.modalState = false
+    }
+  }
+})
+
+</script>
+</body>
+</html>
